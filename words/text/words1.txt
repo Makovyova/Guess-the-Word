@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+import numpy as np;
+from navec import Navec;
+#import matplotlib.pyplot as plt;
+#import skfuzzy as fuzz;
+from questions import rules,generate_tree;
+from membership_func import quest_mem;
+#Ѕольшой файл со словами (рус)
+path = './navec_hudlit_v1_12B_500K_300d_100q.tar'
+navec = Navec.load(path)
+#ќбъ€вление правил
+rules();
+#”точн€ющие вопросы
+#questions_ask();
+generate_tree();
+ 
+ '''
+# Inspect first 10 words in the vocabulary
+print("First 10 words in the vocabulary:")
+# Ensure no variable named 'list' is defined
+vocab_words = list(navec.vocab.words())  # Use a different variable name if needed
+print(vocab_words[:10])  # Print the first 10 words
+'''
+
+data = {
+    'живое': 
+    {
+        'человек': 
+        {
+            'професси€': 
+            {
+                'весЄла€': 'клоун',
+                'т€жЄла€': 'врач'
+            }
+        },
+        'животное': 
+        {
+           'большой': 'слон',
+           'маленький': 'хом€к'
+        },
+        'растение': 
+        {
+            'размер': 
+            {
+                'средний': '€блоко',
+                'маленький': 'вишн€'
+            }
+        }
+ }
+ }
+
+
+# Print the embedding for the word 
+#print(navec.vocab['живое'])
+
+#ќтвет
+#answer_print();
+
+'''
+# Inspect first 10 words in the vocabulary
+print("First 10 words in the vocabulary:")
+# Ensure no variable named 'list' is defined
+vocab_words = list(navec.vocab.words())  # Use a different variable name if needed
+print(vocab_words[:10])  # Print the first 10 words
+'''

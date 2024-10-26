@@ -1,0 +1,139 @@
+from graphviz import Digraph
+
+def generate_tree(data):
+  """Generates a graphviz Digraph object from a nested dictionary."""
+
+  dot = Digraph(comment='Fruit Tree')
+
+  def _add_nodes(parent, child_data):
+    """Recursively adds nodes and edges to the graph."""
+    for child, child_label in child_data.items():
+      dot.node(child, child_label, shape='box', fillcolor='lightblue2', style='filled')
+      dot.edge(parent, child)
+
+      if isinstance(child_label, dict):
+        _add_nodes(child, child_label)
+
+  _add_nodes('root', data)
+  return dot
+
+data = {
+    'цвет': {
+        'зеленый': {
+            'размер': {
+                'большой': 'арбуз',
+                'средний': '€блоко',
+                'маленький': 'виноград'
+            }
+        },
+        'желтый': {
+            'форма': {
+                'кругла€': {
+                    'размер': {
+                        'большой': 'грейпфрут',
+                        'маленький': 'лимон'
+                    }
+                },
+                'продолговата€': 'банан'
+            }
+        },
+        'красный': {
+            'размер': {
+                'средний': '€блоко',
+                'маленький': {
+                    'вкус': {
+                        'сладкий': 'вишн€',
+                        'кислый': 'виноград'
+                    }
+                }
+            }
+        }
+    }
+}
+
+dot = generate_tree(data)
+dot.render('fruit_tree', view=True)
+##########################################
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.children = []
+
+    def add_child(self, child):
+        self.children.append(child)
+
+def build_tree():
+    root = Node("цвет")
+
+    # Level 1
+    green_node = Node("размер")
+    yellow_node = Node("форма")
+    red_node = Node("размер")
+    root.add_child(green_node)
+    root.add_child(yellow_node)
+    root.add_child(red_node)
+
+    # Level 2
+    green_node.add_child(Node("арбуз"))
+    green_node.add_child(Node("€блоко"))
+    green_node.add_child(Node("виноград"))
+    yellow_node.add_child(Node("размер"))
+    yellow_node.add_child(Node("банан"))
+    red_node.add_child(Node("€блоко"))
+    red_node.add_child(Node("вкус"))
+
+    # Level 3
+    yellow_node.children[0].add_child(Node("грейпфрут"))
+    yellow_node.children[0].add_child(Node("лимон"))
+    red_node.children[1].add_child(Node("вишн€"))
+    red_node.children[1].add_child(Node("виноград"))
+
+    return root
+
+def print_tree(node, level=0):
+    print(" " * level + node.data)
+    for child in node.children:
+        print_tree(child, level + 1)
+
+if __name__ == "__main__":
+    tree = build_tree()
+    print_tree(tree)
+
+
+
+#########################################
+def add_node(tree, parent, child, label):
+    """
+    Adds a new node to the tree.
+
+    Args:
+        tree: The tree dictionary.
+        parent: The parent node.
+        child: The child node.
+        label: The label for the edge between parent and child.
+    """
+    if parent not in tree:
+        tree[parent] = {}
+    tree[parent][child] = label
+
+# Create an empty tree dictionary
+tree = {}
+
+# Add nodes to the tree
+add_node(tree, 'цвет', 'размер', 'зеленый')
+add_node(tree, 'цвет', 'форма', 'желтый')
+add_node(tree, 'цвет', 'размер', 'красный')
+add_node(tree, 'размер', 'арбуз', 'большой')
+add_node(tree, 'размер', '€блоко', 'средний')
+add_node(tree, 'размер', 'виноград', 'маленький')
+add_node(tree, 'форма', 'размер', 'кругла€')
+add_node(tree, 'форма', 'банан', 'продолговата€')
+add_node(tree, 'размер', 'грейпфрут', 'большой')
+add_node(tree, 'размер', 'лимон', 'маленький')
+add_node(tree, 'размер', '€блоко', 'средний')
+add_node(tree, 'размер', 'вкус', 'маленький')
+add_node(tree, 'вкус', 'вишн€', 'сладкий')
+add_node(tree, 'вкус', 'виноград', 'кислый')
+
+# Print the tree
+print(tree)
